@@ -42,13 +42,13 @@ public class TokenParserImpl implements TokenParser {
 			} else if (isTokenString(token)) {
 				addTokenToList(tokens, token);
 			continue;
-			} else if (isOperator(operatorsList, token) && !isOperator(operatorsList, tokenWithNextChar)) {
+			} else if (isTokenOperator(operatorsList, token) && !isTokenOperator(operatorsList, tokenWithNextChar)) {
 				addTokenToList(tokens, token);
 				continue;
-			} else if (!isCharSignificant(nextChar) && token.charAt(0) != '"') {
+			} else if (!isCharSignificant(nextChar) && !isTokenBeginLikeString(token)) {
 				addTokenToList(tokens, token);
 				continue;
-			} else if (operatorsList.contains(Character.toString(nextChar)) && !isOperator(operatorsList, token) && token.charAt(0) != '"') {
+			} else if (operatorsList.contains(Character.toString(nextChar)) && !isTokenOperator(operatorsList, token) && token.charAt(0) != '"') {
 				addTokenToList(tokens, token);
 				continue;
 			}
@@ -69,7 +69,7 @@ public class TokenParserImpl implements TokenParser {
 		this.token = new StringBuilder();
 	}
 
-	private boolean isOperator(ArrayList<String> operatorsList, StringBuilder token) {
+	private boolean isTokenOperator(ArrayList<String> operatorsList, StringBuilder token) {
 		return operatorsList.contains(token.toString());
 	}
 
