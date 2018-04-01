@@ -26,8 +26,8 @@ public final class OperatorsList {
 		return operatorsList.contains(Character.toString(ch));
 	}
 	
-	public static String[] getList() {
-		return operatorsList.toArray(new String[operatorsList.size()]);
+	public static ArrayList<String> getList() {
+		return operatorsList;
 	}
 	
 	private static ArrayList<String> concatAll(String[] first, String[]... rest) {

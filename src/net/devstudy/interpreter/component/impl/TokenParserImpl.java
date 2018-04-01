@@ -23,7 +23,7 @@ public class TokenParserImpl implements TokenParser {
 			} else {
 				continue;
 			}
-
+			//Compare
 			if (i == line.length() - 1) {
 				addTokenToList(tokens, token);
 				continue;
