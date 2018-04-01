@@ -3,6 +3,9 @@ out a
 
 hello
 
+input b
+out b
+
 -- var a+=6*y-function2(5,func3(8))
 -- var a += 6 * y - function2 ( 5 , func3 ( 8 ) )
 
