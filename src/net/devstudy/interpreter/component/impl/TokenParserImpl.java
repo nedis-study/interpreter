@@ -1,9 +1,8 @@
 package net.devstudy.interpreter.component.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
-//import net.devstudy.interpreter.component.KeyWords;
 import net.devstudy.interpreter.component.TokenParser;
 
 public class TokenParserImpl implements TokenParser {
@@ -12,17 +11,8 @@ public class TokenParserImpl implements TokenParser {
 
 	@Override
 	public String[] parse(String line) {
-		String[] operatorsAssignment = { "=", "+=", "-=", "*=", "/=", "%=", ">>=", ">>>=", "<<=", "^=", "|=", "&=" };
-		String[] operatorsAriphmetics = { "+", "-", "*", "/", "%", "++", "--" };
-		String[] operatorsCompare = { "==", "!=", ">", "<", ">=", "<=" };
-		String[] operatorsBoolean = { "||", "&&", "!" };
-		String[] operatorsBit = { "~", "&", "|", "^", ">>", ">>>", "<<" };
-		String[] brakets = { "(", ")", "[", "]", "{", "}" };
-		String[] others = { ".", ",", ":", ":", "/" };
-		ArrayList<String> operatorsList = concatAll(operatorsAssignment, operatorsAriphmetics, operatorsCompare,
-				operatorsBoolean, operatorsBit, brakets, others);
-
-		ArrayList<String> tokens = new ArrayList<>();
+		
+		List<String> tokens = new ArrayList<>();
 		StringBuilder tokenWithNextChar;
 
 		for (int i = 0; i < line.length(); i++) {
@@ -35,21 +25,21 @@ public class TokenParserImpl implements TokenParser {
 			} else {
 				continue;
 			}
-
+			//Compare
 			if (i == line.length() - 1) {
 				addTokenToList(tokens, token);
 				continue;
 			} else if (isTokenString(token)) {
 				addTokenToList(tokens, token);
 				continue;
-			} else if (isTokenOperator(operatorsList, token) && !isTokenOperator(operatorsList, tokenWithNextChar)) {
+			} else if (isTokenOperator(token) && !isTokenOperator(tokenWithNextChar)) {
 				addTokenToList(tokens, token);
 				continue;
 			} else if (!isCharSignificant(nextChar) && !isTokenBeginLikeString(token)) {
 				addTokenToList(tokens, token);
 				continue;
-			} else if (operatorsList.contains(Character.toString(nextChar)) && !isTokenOperator(operatorsList, token)
-					&& token.charAt(0) != '"') {
+			} else if (OperatorsList.contains(nextChar) && !isTokenOperator(token)
+					&& !isTokenBeginLikeString(token)) {
 				addTokenToList(tokens, token);
 				continue;
 			}
@@ -65,30 +55,17 @@ public class TokenParserImpl implements TokenParser {
 		return token.length() > 0 && token.charAt(0) == '"';
 	}
 
-	private void addTokenToList(ArrayList<String> tokens, StringBuilder token) {
+	private void addTokenToList(List<String> tokens, StringBuilder token) {
 		tokens.add(token.toString());
 		this.token = new StringBuilder();
 	}
 
-	private boolean isTokenOperator(ArrayList<String> operatorsList, StringBuilder token) {
-		return operatorsList.contains(token.toString());
+	private boolean isTokenOperator(StringBuilder token) {
+		return OperatorsList.contains(token);
 	}
 
 	private boolean isCharSignificant(char charAt) {
 		return charAt != ' ' && charAt != '\t';
 	}
 
-	private static ArrayList<String> concatAll(String[] first, String[]... rest) {
-		int totalLength = first.length;
-		for (String[] array : rest) {
-			totalLength += array.length;
-		}
-		String[] result = Arrays.copyOf(first, totalLength);
-		int offset = first.length;
-		for (String[] array : rest) {
-			System.arraycopy(array, 0, result, offset, array.length);
-			offset += array.length;
-		}
-		return new ArrayList<String>(Arrays.asList(result));
-	}
 }

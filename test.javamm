@@ -1,7 +1,10 @@
-var a = 4581
+var a = "4581
 out a
 
 hello
+
+input b
+out b
 
 -- var a+=6*y-function2(5,func3(8))
 -- var a += 6 * y - function2 ( 5 , func3 ( 8 ) )
@@ -9,6 +12,6 @@ hello
 -- var b ="hello 3 * 7"+67 >>>>> * >90 "8*9
 -- var b = "hello 3 * 7" + 67 >>> >> * > 90 "8*9
 
-1) разобраться в проекте
-2) exceptions
-3) token parser
+--1) разобраться в проекте
+--2) exceptions
+--3) token parser
