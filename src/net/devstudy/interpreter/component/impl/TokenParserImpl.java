@@ -1,6 +1,8 @@
 package net.devstudy.interpreter.component.impl;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import net.devstudy.interpreter.component.TokenParser;
 
 public class TokenParserImpl implements TokenParser {
@@ -10,7 +12,7 @@ public class TokenParserImpl implements TokenParser {
 	@Override
 	public String[] parse(String line) {
 		
-		ArrayList<String> tokens = new ArrayList<>();
+		List<String> tokens = new ArrayList<>();
 		StringBuilder tokenWithNextChar;
 
 		for (int i = 0; i < line.length(); i++) {
@@ -37,7 +39,7 @@ public class TokenParserImpl implements TokenParser {
 				addTokenToList(tokens, token);
 				continue;
 			} else if (OperatorsList.contains(nextChar) && !isTokenOperator(token)
-					&& token.charAt(0) != '"') {
+					&& !isTokenBeginLikeString(token)) {
 				addTokenToList(tokens, token);
 				continue;
 			}
@@ -53,7 +55,7 @@ public class TokenParserImpl implements TokenParser {
 		return token.length() > 0 && token.charAt(0) == '"';
 	}
 
-	private void addTokenToList(ArrayList<String> tokens, StringBuilder token) {
+	private void addTokenToList(List<String> tokens, StringBuilder token) {
 		tokens.add(token.toString());
 		this.token = new StringBuilder();
 	}
