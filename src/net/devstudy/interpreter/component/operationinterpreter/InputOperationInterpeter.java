@@ -23,8 +23,8 @@ public class InputOperationInterpeter implements OperationInterpeter{
 		String varName = operation.getToken(1);
 		System.out.println("Input: " + varName + " = ");
         String varValue = new Scanner(System.in).nextLine();
-        VariableStorage variableStorage = VariableStorageHelper.getVariableStorage();
-        variableStorage.putVariable(varName, varValue);
+        VariableStorage variableStorageInput = VariableStorageHelper.getVariableStorage();
+        variableStorageInput.putVariable(varName, varValue);
 		
 	}
 
