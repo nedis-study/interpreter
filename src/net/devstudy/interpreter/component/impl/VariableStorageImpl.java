@@ -1,24 +1,25 @@
 package net.devstudy.interpreter.component.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.devstudy.interpreter.component.VariableStorage;
 
 public class VariableStorageImpl implements VariableStorage {
-    private String variableName;
-    private Object variableValue;
+	Map<String, Object> variables = new HashMap<>();
 
-    @Override
-    public void putVariable(String variableName, Object variableValue) {
-        this.variableName = variableName;
-        this.variableValue = variableValue;
-    }
+	@Override
+	public void putVariable(String variableName, Object variableValue) {
+		this.variables.put(variableName, variableValue);
+	}
 
-    @Override
-    public Object getVariable(String variableName) {
-        return this.variableName.equals(variableName) ? variableValue : null;
-    }
+	@Override
+	public Object getVariable(String variableName) {
+		return this.variables.containsKey(variableName) ? this.variables.get(variableName) : null;
+	}
 
-    @Override
-    public boolean isDefined(String variableName) {
-        return this.variableName.equals(variableName);
-    }
+	@Override
+	public boolean isDefined(String variableName) {
+		return this.variables.containsKey(variableName);
+	}
 }

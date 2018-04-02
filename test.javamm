@@ -1,13 +1,15 @@
-var a = "4581
+var a = "A"
 var d = D
 out a
 out d
 hello
 
 input b
+input c
 
-out b
 out a
+out b
+out c
 out d
 
 
