@@ -6,7 +6,7 @@ import java.util.Map;
 import net.devstudy.interpreter.component.VariableStorage;
 
 public class VariableStorageImpl implements VariableStorage {
-	Map<String, Object> variables = new HashMap<>();
+	private Map<String, Object> variables = new HashMap<>();
 
 	@Override
 	public void putVariable(String variableName, Object variableValue) {
