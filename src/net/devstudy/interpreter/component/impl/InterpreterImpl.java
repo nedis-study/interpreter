@@ -4,6 +4,7 @@ import net.devstudy.interpreter.component.ContextInterpeter;
 import net.devstudy.interpreter.component.Interpreter;
 import net.devstudy.interpreter.component.OperationTreeBuilder;
 import net.devstudy.interpreter.component.SourceLineReader;
+import net.devstudy.interpreter.exception.InterpreterException;
 import net.devstudy.interpreter.model.Operation;
 import net.devstudy.interpreter.model.SourceLine;
 
@@ -23,9 +24,13 @@ public class InterpreterImpl implements Interpreter {
     @Override
     public void interpret(String fileName) {
         SourceLine[] sourceLines = sourceLineReader.read(fileName);
-        Operation[] operations = operationTreeBuilder.buildTree(sourceLines);
-        for (Operation operation : operations) {
-            contextInterpeter.interpret(operation);
+        try {
+            Operation[] operations = operationTreeBuilder.buildTree(sourceLines);
+            for (Operation operation : operations) {
+                contextInterpeter.interpret(operation);
+            }
+        } catch (InterpreterException e) {
+            System.err.println(e.getMessage());
         }
     }
 }
