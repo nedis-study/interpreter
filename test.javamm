@@ -1,6 +1,7 @@
 var a
 var out = 5
 out a
+input b
 
 hello
 
