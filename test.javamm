@@ -2,7 +2,7 @@ var a = 5
 //var out = 5
 out a
 var b
-input b
+input out
 out b
 
 

@@ -2,6 +2,7 @@ package net.devstudy.interpreter.component.impl;
 
 import net.devstudy.interpreter.component.*;
 import net.devstudy.interpreter.component.operationinterpreter.HelloOperationInterpeter;
+import net.devstudy.interpreter.component.operationinterpreter.InputOperationInterpeter;
 import net.devstudy.interpreter.component.operationinterpreter.OutOperationInterpeter;
 import net.devstudy.interpreter.component.operationinterpreter.VarDeclarationOperationInterpeter;
 
@@ -18,6 +19,7 @@ public class SQLLIkeConfigImpl implements Config {
     private final OperationInterpeter[] operationInterpeters = {
             new VarDeclarationOperationInterpeter(variableVerifier),
             new OutOperationInterpeter(variableVerifier),
+            new InputOperationInterpeter(variableVerifier),
             new HelloOperationInterpeter()
     };
     private final ContextInterpeter contextInterpeter =

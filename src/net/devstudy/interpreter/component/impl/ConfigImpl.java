@@ -20,7 +20,7 @@ public class ConfigImpl implements Config {
             new VarDeclarationOperationInterpeter(variableVerifier),
             new OutOperationInterpeter(variableVerifier),
             new HelloOperationInterpeter(),
-            new InputOperationInterpeter()
+            new InputOperationInterpeter(variableVerifier)
     };
     private final ContextInterpeter contextInterpeter =
             new ContextInterpeterImpl(operationInterpeters);
