@@ -1,9 +1,12 @@
 var a = 5
 //var out = 5
 out a
+var b
 input b
+out b
 
-hello
+
+//hello
 
 // var a+=6*y-function2(5,func3(8))
 // var a += 6 * y - function2 ( 5 , func3 ( 8 ) )

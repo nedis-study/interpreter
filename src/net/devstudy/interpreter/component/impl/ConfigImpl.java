@@ -18,7 +18,7 @@ public class ConfigImpl implements Config {
             new OperationTreeBuilderImpl(tokenParser);
     private final OperationInterpeter[] operationInterpeters = {
             new VarDeclarationOperationInterpeter(variableVerifier),
-            new OutOperationInterpeter(),
+            new OutOperationInterpeter(variableVerifier),
             new HelloOperationInterpeter(),
             new InputOperationInterpeter()
     };
