@@ -1,5 +1,5 @@
-var a
-var out = 5
+var a = 5
+//var out = 5
 out a
 input b
 

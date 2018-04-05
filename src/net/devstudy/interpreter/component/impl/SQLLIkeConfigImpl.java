@@ -6,6 +6,7 @@ import net.devstudy.interpreter.component.operationinterpreter.OutOperationInter
 import net.devstudy.interpreter.component.operationinterpreter.VarDeclarationOperationInterpeter;
 
 public class SQLLIkeConfigImpl implements Config {
+	private final VariableVerifier variableVerifier = new VariableVerifierImpl();
     private final SignificantLineVerifier significantLineVerifier =
             new SQLLikeSignificantLineVerifier();
     private final SourceLineReader sourceLineReader =
@@ -15,7 +16,7 @@ public class SQLLIkeConfigImpl implements Config {
     private final OperationTreeBuilder operationTreeBuilder =
             new OperationTreeBuilderImpl(tokenParser);
     private final OperationInterpeter[] operationInterpeters = {
-            new VarDeclarationOperationInterpeter(),
+            new VarDeclarationOperationInterpeter(variableVerifier),
             new OutOperationInterpeter(),
             new HelloOperationInterpeter()
     };
