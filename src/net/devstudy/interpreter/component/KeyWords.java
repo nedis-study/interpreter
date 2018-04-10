@@ -11,5 +11,12 @@ public class KeyWords {
 
     public static final String INPUT = "input";
 
-    public static List<String> ALL_KEY_WORDS = Arrays.asList(VAR, OUT, INPUT);
+    public static final String NULL = "null";
+
+    public static final String TRUE = "true";
+
+    public static final String FALSE = "false";
+
+    public static List<String> ALL_KEY_WORDS =
+            Arrays.asList(VAR, OUT, INPUT, NULL, TRUE, FALSE);
 }

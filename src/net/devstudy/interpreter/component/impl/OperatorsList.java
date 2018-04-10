@@ -11,7 +11,7 @@ public final class OperatorsList {
     private static final String[] operatorsBoolean = {"||", "&&", "!"};
     private static final String[] operatorsBit = {"~", "&", "|", "^", ">>", ">>>", "<<"};
     private static final String[] brakets = {"(", ")", "[", "]", "{", "}"};
-    private static final String[] others = {".", ",", ":", ":", "/"};
+    private static final String[] others = {",", ":", ":", "/"};
     private static final List<String> operatorsList = concatAll(operatorsAssignment, operatorsAriphmetics, operatorsCompare,
             operatorsBoolean, operatorsBit, brakets, others);
 

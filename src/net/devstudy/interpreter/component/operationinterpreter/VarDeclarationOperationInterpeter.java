@@ -1,21 +1,22 @@
 package net.devstudy.interpreter.component.operationinterpreter;
 
+import net.devstudy.interpreter.component.ExpressionResolver;
 import net.devstudy.interpreter.component.OperationInterpeter;
 import net.devstudy.interpreter.component.VariableStorage;
 import net.devstudy.interpreter.component.VariableVerifier;
 import net.devstudy.interpreter.component.impl.VariableStorageHelper;
 import net.devstudy.interpreter.exception.RuntimeInterpreterException;
 import net.devstudy.interpreter.exception.SyntaxInterpreterException;
+import net.devstudy.interpreter.model.Expression;
 import net.devstudy.interpreter.model.Operation;
 
 import static net.devstudy.interpreter.component.KeyWords.VAR;
 
-public class VarDeclarationOperationInterpeter implements OperationInterpeter {
+public class VarDeclarationOperationInterpeter extends AbstractOperationInterpeter implements OperationInterpeter {
 
-    private final VariableVerifier variableVerifier;
-
-    public VarDeclarationOperationInterpeter(VariableVerifier variableVerifier) {
-        this.variableVerifier = variableVerifier;
+    public VarDeclarationOperationInterpeter(VariableVerifier variableVerifier,
+                                             ExpressionResolver expressionResolver) {
+        super(variableVerifier, expressionResolver);
     }
 
     @Override
@@ -41,8 +42,9 @@ public class VarDeclarationOperationInterpeter implements OperationInterpeter {
         if (operation.getTokenCount() == 2) {
             return null;
         } else {
-            String varValue = operation.getToken(3);
-            return varValue;
+            String[] tokens = operation.getSubTokens(3);
+            Expression expression = expressionResolver.resolve(tokens);
+            return expression.getValue();
         }
     }
 
