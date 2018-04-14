@@ -1,26 +1,26 @@
 package net.devstudy.interpreter.model;
 
-import java.util.Arrays;
+import java.util.List;
 
 public interface Operation {
 
     SourceLine getSourceLine();
 
-    String[] getTokens();
+    List<String> getTokens();
 
     default int getTokenCount() {
-        return getTokens().length;
+        return getTokens().size();
     }
 
     default String getToken(int index) {
-        return getTokens()[index];
+        return getTokens().get(index);
     }
 
-    default String[] getSubTokens(int fromIndex) {
+    default List<String> getSubTokens(int fromIndex) {
         return getSubTokens(fromIndex, getTokenCount());
     }
 
-    default String[] getSubTokens(int fromIndex, int toIndex) {
-        return Arrays.copyOfRange(getTokens(), fromIndex, toIndex);
+    default List<String> getSubTokens(int fromIndex, int toIndex) {
+        return getTokens().subList(fromIndex, toIndex);
     }
 }

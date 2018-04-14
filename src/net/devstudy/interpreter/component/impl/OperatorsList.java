@@ -1,5 +1,7 @@
 package net.devstudy.interpreter.component.impl;
 
+import net.devstudy.interpreter.utils.DataUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +13,7 @@ public final class OperatorsList {
     private static final String[] operatorsBoolean = {"||", "&&", "!"};
     private static final String[] operatorsBit = {"~", "&", "|", "^", ">>", ">>>", "<<"};
     private static final String[] brakets = {"(", ")", "[", "]", "{", "}"};
-    private static final String[] others = {",", ":", ":", "/"};
+    private static final String[] others = {",", ":", ";", "/"};
     private static final List<String> operatorsList = concatAll(operatorsAssignment, operatorsAriphmetics, operatorsCompare,
             operatorsBoolean, operatorsBit, brakets, others);
 
@@ -40,7 +42,7 @@ public final class OperatorsList {
         for (String[] strings : rest) {
             Collections.addAll(list, strings);
         }
-        return list;
+        return DataUtils.unmodifiableList(list);
     }
 
 }

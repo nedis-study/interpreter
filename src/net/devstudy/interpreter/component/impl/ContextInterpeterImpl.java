@@ -5,11 +5,13 @@ import net.devstudy.interpreter.component.OperationInterpeter;
 import net.devstudy.interpreter.exception.SyntaxInterpreterException;
 import net.devstudy.interpreter.model.Operation;
 
+import java.util.List;
+
 public class ContextInterpeterImpl implements ContextInterpeter {
 
-    private final OperationInterpeter[] operationInterpeters;
+    private final List<OperationInterpeter> operationInterpeters;
 
-    public ContextInterpeterImpl(OperationInterpeter[] operationInterpeters) {
+    public ContextInterpeterImpl(List<OperationInterpeter> operationInterpeters) {
         this.operationInterpeters = operationInterpeters;
     }
 

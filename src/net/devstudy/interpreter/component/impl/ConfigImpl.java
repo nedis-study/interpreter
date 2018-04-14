@@ -1,16 +1,16 @@
 package net.devstudy.interpreter.component.impl;
 
 import net.devstudy.interpreter.component.*;
-import net.devstudy.interpreter.component.calculator.HelloBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.MinusBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.PlusBinaryCalculator;
 import net.devstudy.interpreter.component.expressionbuilder.BinaryExpressionBuilder;
 import net.devstudy.interpreter.component.expressionbuilder.SimpleExpressionBuilder;
 import net.devstudy.interpreter.component.operationinterpreter.InputOperationInterpeter;
 import net.devstudy.interpreter.component.operationinterpreter.OutOperationInterpeter;
 import net.devstudy.interpreter.component.operationinterpreter.VarDeclarationOperationInterpeter;
+import net.devstudy.interpreter.utils.DataUtils;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ConfigImpl implements Config {
     private final VariableVerifier variableVerifier = createVariableVerifier();
@@ -22,26 +22,28 @@ public class ConfigImpl implements Config {
     private final Map<String, BinaryCalculator> binaryCalculatorMap = createBinaryCalculatorMap();
 
     protected Map<String, BinaryCalculator> createBinaryCalculatorMap() {
-        return new HashMap<String, BinaryCalculator>() {
+        return Collections.unmodifiableMap(new HashMap<String, BinaryCalculator>() {
             {
                 put("-", new MinusBinaryCalculator());
-                put("$", new HelloBinaryCalculator());
+                put("+", new PlusBinaryCalculator());
             }
-        };
+        });
     }
 
-    private final ExpressionBuilder[] expressionBuilders = createExpressionBuilders(variableVerifier);
+    private final List<ExpressionBuilder> expressionBuilders = createExpressionBuilders(variableVerifier);
 
-    protected ExpressionBuilder[] createExpressionBuilders(VariableVerifier variableVerifier) {
-        return new ExpressionBuilder[]{
-                new SimpleExpressionBuilder(variableVerifier),
-                new BinaryExpressionBuilder(new SimpleExpressionBuilder(variableVerifier), binaryCalculatorMap)
-        };
+    protected List<ExpressionBuilder> createExpressionBuilders(VariableVerifier variableVerifier) {
+        return DataUtils.unmodifiableList(
+                Arrays.asList(
+                        new SimpleExpressionBuilder(variableVerifier),
+                        new BinaryExpressionBuilder(new SimpleExpressionBuilder(variableVerifier), binaryCalculatorMap)
+                )
+        );
     }
 
     private final ExpressionResolver expressionResolver = createExpressionResolver(expressionBuilders);
 
-    protected ExpressionResolver createExpressionResolver(ExpressionBuilder[] expressionBuilders) {
+    protected ExpressionResolver createExpressionResolver(List<ExpressionBuilder> expressionBuilders) {
         return new ExpressionResolverImpl(expressionBuilders);
     }
 
@@ -69,22 +71,23 @@ public class ConfigImpl implements Config {
         return new OperationTreeBuilderImpl(tokenParser);
     }
 
-    private final OperationInterpeter[] operationInterpeters = createOperationInterperters(variableVerifier, expressionResolver);
+    private final List<OperationInterpeter> operationInterpeters = createOperationInterperters(variableVerifier, expressionResolver);
 
-    protected OperationInterpeter[] createOperationInterperters(
+    protected List<OperationInterpeter> createOperationInterperters(
             VariableVerifier variableVerifier,
             ExpressionResolver expressionResolver) {
-        return new OperationInterpeter[]{
-                new VarDeclarationOperationInterpeter(variableVerifier, expressionResolver),
-                new OutOperationInterpeter(variableVerifier, expressionResolver),
-                new InputOperationInterpeter(variableVerifier, expressionResolver)
-        };
+        return DataUtils.unmodifiableList(
+                Arrays.asList(
+                        new VarDeclarationOperationInterpeter(variableVerifier, expressionResolver),
+                        new OutOperationInterpeter(variableVerifier, expressionResolver),
+                        new InputOperationInterpeter(variableVerifier, expressionResolver)
+                )
+        );
     }
 
     private final ContextInterpeter contextInterpeter = createContextInterpreter(operationInterpeters);
 
-    protected ContextInterpeter createContextInterpreter(
-            OperationInterpeter[] operationInterpeters) {
+    protected ContextInterpeter createContextInterpreter(List<OperationInterpeter> operationInterpeters) {
         return new ContextInterpeterImpl(operationInterpeters);
     }
 

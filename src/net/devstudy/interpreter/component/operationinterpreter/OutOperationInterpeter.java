@@ -7,6 +7,8 @@ import net.devstudy.interpreter.exception.SyntaxInterpreterException;
 import net.devstudy.interpreter.model.Expression;
 import net.devstudy.interpreter.model.Operation;
 
+import java.util.List;
+
 import static net.devstudy.interpreter.component.KeyWords.OUT;
 
 public class OutOperationInterpeter extends AbstractOperationInterpeter implements OperationInterpeter {
@@ -24,7 +26,7 @@ public class OutOperationInterpeter extends AbstractOperationInterpeter implemen
     @Override
     public void interpreter(Operation operation) {
         validateSyntax(operation);
-        String[] tokens = operation.getSubTokens(1);
+        List<String> tokens = operation.getSubTokens(1);
         Expression expression = expressionResolver.resolve(tokens);
         System.out.println(expression.getValue());
     }

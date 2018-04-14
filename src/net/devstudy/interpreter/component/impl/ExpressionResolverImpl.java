@@ -6,22 +6,23 @@ import net.devstudy.interpreter.exception.SyntaxInterpreterException;
 import net.devstudy.interpreter.model.Expression;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class ExpressionResolverImpl implements ExpressionResolver {
 
-    private final ExpressionBuilder[] expressionBuilders;
+    private final List<ExpressionBuilder> expressionBuilders;
 
-    public ExpressionResolverImpl(ExpressionBuilder[] expressionBuilders) {
+    public ExpressionResolverImpl(List<ExpressionBuilder> expressionBuilders) {
         this.expressionBuilders = expressionBuilders;
     }
 
     @Override
-    public Expression resolve(String... tokens) {
+    public Expression resolve(List<String> tokens) {
         for (ExpressionBuilder expressionBuilder : expressionBuilders) {
             if (expressionBuilder.isSupport(tokens)) {
                 return expressionBuilder.build(tokens);
             }
         }
-        throw new SyntaxInterpreterException("Undefined expression: " + Arrays.toString(tokens));
+        throw new SyntaxInterpreterException("Undefined expression: " + tokens);
     }
 }

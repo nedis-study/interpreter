@@ -5,6 +5,11 @@ import net.devstudy.interpreter.component.TokenParser;
 import net.devstudy.interpreter.model.Operation;
 import net.devstudy.interpreter.model.SimpleOperation;
 import net.devstudy.interpreter.model.SourceLine;
+import net.devstudy.interpreter.utils.DataUtils;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class OperationTreeBuilderImpl implements OperationTreeBuilder {
     private final TokenParser tokenParser;
@@ -14,13 +19,13 @@ public class OperationTreeBuilderImpl implements OperationTreeBuilder {
     }
 
     @Override
-    public Operation[] buildTree(SourceLine[] sourceLines) {
-        Operation[] operations = new Operation[sourceLines.length];
-        for (int i = 0; i < sourceLines.length; i++) {
-            SourceLine sourceLine = sourceLines[i];
-            String[] tokens = tokenParser.parse(sourceLine.getLine());
+    public List<Operation> buildTree(List<SourceLine> sourceLines) {
+        Operation[] operations = new Operation[sourceLines.size()];
+        for (int i = 0; i < sourceLines.size(); i++) {
+            SourceLine sourceLine = sourceLines.get(i);
+            List<String> tokens = tokenParser.parse(sourceLine.getLine());
             operations[i] = new SimpleOperation(tokens, sourceLine);
         }
-        return operations;
+        return DataUtils.unmodifiableList(Arrays.asList(operations));
     }
 }

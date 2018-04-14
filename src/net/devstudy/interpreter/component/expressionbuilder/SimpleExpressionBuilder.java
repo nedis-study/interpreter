@@ -7,6 +7,8 @@ import net.devstudy.interpreter.model.Expression;
 import net.devstudy.interpreter.model.impl.SimpleExpression;
 import net.devstudy.interpreter.model.impl.VariableExpression;
 
+import java.util.List;
+
 import static net.devstudy.interpreter.component.KeyWords.*;
 
 public class SimpleExpressionBuilder implements ExpressionBuilder {
@@ -18,13 +20,13 @@ public class SimpleExpressionBuilder implements ExpressionBuilder {
     }
 
     @Override
-    public boolean isSupport(String... tokens) {
-        return tokens.length == 1;
+    public boolean isSupport(List<String> tokens) {
+        return tokens.size() == 1;
     }
 
     @Override
-    public Expression build(String... tokens) {
-        String token = tokens[0];
+    public Expression build(List<String> tokens) {
+        String token = tokens.get(0);
         if (NULL.equals(token)) {
             return new SimpleExpression(null);
         } else if (TRUE.equals(token) || FALSE.equals(token)) {

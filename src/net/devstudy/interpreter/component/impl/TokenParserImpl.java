@@ -1,14 +1,16 @@
 package net.devstudy.interpreter.component.impl;
 
 import net.devstudy.interpreter.component.TokenParser;
+import net.devstudy.interpreter.utils.DataUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TokenParserImpl implements TokenParser {
 
     @Override
-    public String[] parse(String line) {
+    public List<String> parse(String line) {
         StringBuilder token = new StringBuilder();
         List<String> tokens = new ArrayList<>();
         StringBuilder tokenWithNextChar;
@@ -35,7 +37,7 @@ public class TokenParserImpl implements TokenParser {
                 }
             }
         }
-        return tokens.toArray(new String[tokens.size()]);
+        return DataUtils.unmodifiableList(tokens);
     }
 
     private boolean isTokenString(StringBuilder token) {

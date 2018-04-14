@@ -8,6 +8,8 @@ import net.devstudy.interpreter.exception.InterpreterException;
 import net.devstudy.interpreter.model.Operation;
 import net.devstudy.interpreter.model.SourceLine;
 
+import java.util.List;
+
 public class InterpreterImpl implements Interpreter {
     private final SourceLineReader sourceLineReader;
     private final OperationTreeBuilder operationTreeBuilder;
@@ -23,9 +25,9 @@ public class InterpreterImpl implements Interpreter {
 
     @Override
     public void interpret(String fileName) {
-        SourceLine[] sourceLines = sourceLineReader.read(fileName);
+        List<SourceLine> sourceLines = sourceLineReader.read(fileName);
         try {
-            Operation[] operations = operationTreeBuilder.buildTree(sourceLines);
+            List<Operation> operations = operationTreeBuilder.buildTree(sourceLines);
             for (Operation operation : operations) {
                 contextInterpeter.interpret(operation);
             }

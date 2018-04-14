@@ -6,6 +6,8 @@ import net.devstudy.interpreter.exception.SyntaxInterpreterException;
 import net.devstudy.interpreter.model.Expression;
 import net.devstudy.interpreter.model.impl.BinaryExpression;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class BinaryExpressionBuilder implements ExpressionBuilder {
@@ -20,15 +22,15 @@ public class BinaryExpressionBuilder implements ExpressionBuilder {
     }
 
     @Override
-    public boolean isSupport(String... tokens) {
-        return tokens.length == 3;
+    public boolean isSupport(List<String> tokens) {
+        return tokens.size() == 3;
     }
 
     @Override
-    public Expression build(String... tokens) {
-        String operator = tokens[1];
-        Expression expression1 = simpleExpressionBuilder.build(tokens[0]);
-        Expression expression2 = simpleExpressionBuilder.build(tokens[2]);
+    public Expression build(List<String> tokens) {
+        String operator = tokens.get(1);
+        Expression expression1 = simpleExpressionBuilder.build(Collections.singletonList(tokens.get(0)));
+        Expression expression2 = simpleExpressionBuilder.build(Collections.singletonList(tokens.get(2)));
         BinaryCalculator binaryCalculator = binaryCalculatorMap.get(operator);
         if (binaryCalculator != null) {
             return new BinaryExpression(expression1, expression2, binaryCalculator);

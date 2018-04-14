@@ -2,7 +2,9 @@ package net.devstudy.interpreter.component;
 
 import net.devstudy.interpreter.model.Expression;
 
+import java.util.List;
+
 public interface ExpressionResolver {
 
-    Expression resolve(String... tokens);
+    Expression resolve(List<String> tokens);
 }

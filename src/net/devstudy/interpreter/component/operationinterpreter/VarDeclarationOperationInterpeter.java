@@ -10,6 +10,8 @@ import net.devstudy.interpreter.exception.SyntaxInterpreterException;
 import net.devstudy.interpreter.model.Expression;
 import net.devstudy.interpreter.model.Operation;
 
+import java.util.List;
+
 import static net.devstudy.interpreter.component.KeyWords.VAR;
 
 public class VarDeclarationOperationInterpeter extends AbstractOperationInterpeter implements OperationInterpeter {
@@ -42,7 +44,7 @@ public class VarDeclarationOperationInterpeter extends AbstractOperationInterpet
         if (operation.getTokenCount() == 2) {
             return null;
         } else {
-            String[] tokens = operation.getSubTokens(3);
+            List<String> tokens = operation.getSubTokens(3);
             Expression expression = expressionResolver.resolve(tokens);
             return expression.getValue();
         }

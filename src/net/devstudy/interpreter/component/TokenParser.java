@@ -1,6 +1,8 @@
 package net.devstudy.interpreter.component;
 
+import java.util.List;
+
 public interface TokenParser {
 
-    String[] parse(String line);
+    List<String> parse(String line);
 }

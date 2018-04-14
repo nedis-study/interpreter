@@ -1,13 +1,15 @@
 package net.devstudy.interpreter.model;
 
-import java.util.Arrays;
+import net.devstudy.interpreter.utils.DataUtils;
+
+import java.util.List;
 
 public class SimpleOperation implements Operation {
-    private final String[] tokens;
+    private final List<String> tokens;
     private final SourceLine sourceLine;
 
-    public SimpleOperation(String[] tokens, SourceLine sourceLine) {
-        this.tokens = tokens;
+    public SimpleOperation(List<String> tokens, SourceLine sourceLine) {
+        this.tokens = DataUtils.unmodifiableList(tokens);
         this.sourceLine = sourceLine;
     }
 
@@ -17,14 +19,14 @@ public class SimpleOperation implements Operation {
     }
 
     @Override
-    public String[] getTokens() {
+    public List<String> getTokens() {
         return tokens;
     }
 
     @Override
     public String toString() {
         return "SimpleOperation{" +
-                "tokens=" + Arrays.toString(tokens) +
+                "tokens=" + tokens +
                 ", sourceLine=" + sourceLine +
                 '}';
     }

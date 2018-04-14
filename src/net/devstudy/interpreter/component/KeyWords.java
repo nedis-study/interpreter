@@ -1,6 +1,9 @@
 package net.devstudy.interpreter.component;
 
-import java.util.Arrays;
+import net.devstudy.interpreter.utils.DataUtils;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 public class KeyWords {
@@ -17,6 +20,20 @@ public class KeyWords {
 
     public static final String FALSE = "false";
 
-    public static List<String> ALL_KEY_WORDS =
-            Arrays.asList(VAR, OUT, INPUT, NULL, TRUE, FALSE);
+    public static final List<String> ALL_KEY_WORDS;
+
+    static {
+        List<String> list = new ArrayList<>();
+        Field[] fields = KeyWords.class.getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getType() == String.class) {
+                try {
+                    list.add(field.get(KeyWords.class).toString());
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        ALL_KEY_WORDS = DataUtils.unmodifiableList(list);
+    }
 }
