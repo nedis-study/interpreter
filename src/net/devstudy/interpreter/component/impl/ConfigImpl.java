@@ -19,6 +19,12 @@ import net.devstudy.interpreter.component.SourceLineReader;
 import net.devstudy.interpreter.component.TokenParser;
 import net.devstudy.interpreter.component.VariableVerifier;
 import net.devstudy.interpreter.component.calculator.AndBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitAndBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitLeftShiftBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitNoSignRightShiftBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitOrBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitRightShiftBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitXorBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.DivideBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.EqualsBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.LessBinaryCalculator;
@@ -63,6 +69,12 @@ public class ConfigImpl implements Config {
                 put("<=", new LessOrEqualsBinaryCalculator());
                 put("||", new OrBinaryCalculator());
                 put("&&", new AndBinaryCalculator());
+                put("|", new BitOrBinaryCalculator());
+                put("&", new BitAndBinaryCalculator());
+                put("^", new BitXorBinaryCalculator());
+                put("<<", new BitLeftShiftBinaryCalculator());
+                put(">>", new BitRightShiftBinaryCalculator());
+                put(">>>", new BitNoSignRightShiftBinaryCalculator());
             }
         });
     }
