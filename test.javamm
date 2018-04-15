@@ -1,13 +1,18 @@
-var a = 1
-var b = a - 9
+var a = 1.
+var b = a * 9
 
 out b
-out b $ 9
+out b <= 8
+out true || true
+out false || true
+out true && true
+out false && true
 
 // 1 MinusBinaryCalculator -> double-integer / integer-double
 // "+", "-", "*", "/", "%",
 // "==", "!=", ">", "<", ">=", "<=",
 // "||", "&&"
+
 // "~", "&", "|", "^", ">>", ">>>", "<<"
 
 // "+=", "-=", "*=", "/=", "%=", ">>=", ">>>=", "<<=", "^=", "|=", "&="
