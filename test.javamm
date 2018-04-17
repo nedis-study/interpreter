@@ -6,7 +6,7 @@ out b <= 8
 out true || true
 out false || true
 out true && true
-out 42 << 15
+out a -= 2
 
 // 1 MinusBinaryCalculator -> double-integer / integer-double
 // "+", "-", "*", "/", "%",

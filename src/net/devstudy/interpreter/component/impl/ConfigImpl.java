@@ -30,6 +30,7 @@ import net.devstudy.interpreter.component.calculator.EqualsBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.LessBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.LessOrEqualsBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.MinusBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.MinusEqualsBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.MoreBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.MoreOrEqualsBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.MultiplicationBinaryCalculator;
@@ -75,6 +76,7 @@ public class ConfigImpl implements Config {
                 put("<<", new BitLeftShiftBinaryCalculator());
                 put(">>", new BitRightShiftBinaryCalculator());
                 put(">>>", new BitNoSignRightShiftBinaryCalculator());
+                put("-=", new MinusEqualsBinaryCalculator());
             }
         });
     }
