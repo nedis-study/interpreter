@@ -1,16 +1,49 @@
 package net.devstudy.interpreter.component.impl;
 
-import net.devstudy.interpreter.component.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.devstudy.interpreter.component.BinaryCalculator;
+import net.devstudy.interpreter.component.Config;
+import net.devstudy.interpreter.component.ContextInterpeter;
+import net.devstudy.interpreter.component.ExpressionBuilder;
+import net.devstudy.interpreter.component.ExpressionResolver;
+import net.devstudy.interpreter.component.Interpreter;
+import net.devstudy.interpreter.component.OperationInterpeter;
+import net.devstudy.interpreter.component.OperationTreeBuilder;
+import net.devstudy.interpreter.component.SignificantLineVerifier;
+import net.devstudy.interpreter.component.SourceLineReader;
+import net.devstudy.interpreter.component.TokenParser;
+import net.devstudy.interpreter.component.VariableVerifier;
+import net.devstudy.interpreter.component.calculator.AndBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitAndBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitLeftShiftBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitNoSignRightShiftBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitOrBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitRightShiftBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.BitXorBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.DivideBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.EqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.LessBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.LessOrEqualsBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.MinusBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.MinusEqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.MoreBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.MoreOrEqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.MultiplicationBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.NotEqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.OrBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.PlusBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.RemainderBinaryCalculator;
 import net.devstudy.interpreter.component.expressionbuilder.BinaryExpressionBuilder;
 import net.devstudy.interpreter.component.expressionbuilder.SimpleExpressionBuilder;
 import net.devstudy.interpreter.component.operationinterpreter.InputOperationInterpeter;
 import net.devstudy.interpreter.component.operationinterpreter.OutOperationInterpeter;
 import net.devstudy.interpreter.component.operationinterpreter.VarDeclarationOperationInterpeter;
 import net.devstudy.interpreter.utils.DataUtils;
-
-import java.util.*;
 
 public class ConfigImpl implements Config {
     private final VariableVerifier variableVerifier = createVariableVerifier();
@@ -26,6 +59,24 @@ public class ConfigImpl implements Config {
             {
                 put("-", new MinusBinaryCalculator());
                 put("+", new PlusBinaryCalculator());
+                put("*", new MultiplicationBinaryCalculator());
+                put("/", new DivideBinaryCalculator());
+                put("%", new RemainderBinaryCalculator());
+                put("==", new EqualsBinaryCalculator());
+                put("!=", new NotEqualsBinaryCalculator());
+                put(">", new MoreBinaryCalculator());
+                put("<", new LessBinaryCalculator());
+                put(">=", new MoreOrEqualsBinaryCalculator());
+                put("<=", new LessOrEqualsBinaryCalculator());
+                put("||", new OrBinaryCalculator());
+                put("&&", new AndBinaryCalculator());
+                put("|", new BitOrBinaryCalculator());
+                put("&", new BitAndBinaryCalculator());
+                put("^", new BitXorBinaryCalculator());
+                put("<<", new BitLeftShiftBinaryCalculator());
+                put(">>", new BitRightShiftBinaryCalculator());
+                put(">>>", new BitNoSignRightShiftBinaryCalculator());
+                put("-=", new MinusEqualsBinaryCalculator());
             }
         });
     }

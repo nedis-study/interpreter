@@ -36,6 +36,12 @@ public final class OperatorsList {
     public static String[] getArray() {
         return operatorsList.toArray(new String[operatorsList.size()]);
     }
+    
+    public static List<String> getOperatorsAssignment(){
+    	List<String> list = new ArrayList<>();
+    	Collections.addAll(list, operatorsAssignment);
+    	return DataUtils.unmodifiableList(list);
+    }
 
     private static List<String> concatAll(String[]... rest) {
         List<String> list = new ArrayList<>();
@@ -44,5 +50,6 @@ public final class OperatorsList {
         }
         return DataUtils.unmodifiableList(list);
     }
+    
 
 }
