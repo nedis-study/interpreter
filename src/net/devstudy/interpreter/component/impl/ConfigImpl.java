@@ -1,10 +1,21 @@
 package net.devstudy.interpreter.component.impl;
 
 import net.devstudy.interpreter.component.*;
-import net.devstudy.interpreter.component.calculator.MinusBinaryCalculator;
-import net.devstudy.interpreter.component.calculator.PlusBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.arithmetic.MinusBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.arithmetic.MultiplicationBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.arithmetic.PlusBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.bit.BitLeftShiftBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.bit.BitNoSignRightShiftBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.bit.BitRightShiftBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.logic.AndBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.logic.OrBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.predicate.EqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.predicate.NotEqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.unary.PlusUnaryCalculator;
+import net.devstudy.interpreter.component.expressionbuilder.BinaryAssignmentExpressionBuilder;
 import net.devstudy.interpreter.component.expressionbuilder.BinaryExpressionBuilder;
 import net.devstudy.interpreter.component.expressionbuilder.SimpleExpressionBuilder;
+import net.devstudy.interpreter.component.expressionbuilder.UnaryExpressionBuilder;
 import net.devstudy.interpreter.component.operationinterpreter.InputOperationInterpeter;
 import net.devstudy.interpreter.component.operationinterpreter.OutOperationInterpeter;
 import net.devstudy.interpreter.component.operationinterpreter.VarDeclarationOperationInterpeter;
@@ -24,8 +35,42 @@ public class ConfigImpl implements Config {
     protected Map<String, BinaryCalculator> createBinaryCalculatorMap() {
         return Collections.unmodifiableMap(new HashMap<String, BinaryCalculator>() {
             {
-                put("-", new MinusBinaryCalculator());
+                put("-", MinusBinaryCalculator.createArithmenticMinusBinaryCalculator());
                 put("+", new PlusBinaryCalculator());
+                put("*", new MultiplicationBinaryCalculator());
+                put("||", new OrBinaryCalculator());
+                put("&&", new AndBinaryCalculator());
+                put("<<", new BitLeftShiftBinaryCalculator());
+                put(">>", new BitRightShiftBinaryCalculator());
+                put(">>>", new BitNoSignRightShiftBinaryCalculator());
+
+                put("==", new EqualsBinaryCalculator());
+                put("!=", new NotEqualsBinaryCalculator());
+            }
+        });
+    }
+
+    private final Map<String, BinaryCalculator> binaryAssignmentCalculatorMap = createBinaryAssignmentCalculatorMap();
+
+    protected Map<String, BinaryCalculator> createBinaryAssignmentCalculatorMap() {
+        return Collections.unmodifiableMap(new HashMap<String, BinaryCalculator>() {
+            {
+                put("-=", MinusBinaryCalculator.createAssignmentMinusBinaryCalculator());
+                put("+=", new PlusBinaryCalculator());
+                put("*=", new MultiplicationBinaryCalculator());
+                put("<<=", new BitLeftShiftBinaryCalculator());
+                put(">>=", new BitRightShiftBinaryCalculator());
+                put(">>>=", new BitNoSignRightShiftBinaryCalculator());
+            }
+        });
+    }
+
+    private final Map<String, UnaryCalculator> unaryCalculatorMap = createUnaryCalculatorMap();
+
+    protected Map<String, UnaryCalculator> createUnaryCalculatorMap() {
+        return Collections.unmodifiableMap(new HashMap<String, UnaryCalculator>() {
+            {
+                put("+", new PlusUnaryCalculator());
             }
         });
     }
@@ -33,10 +78,13 @@ public class ConfigImpl implements Config {
     private final List<ExpressionBuilder> expressionBuilders = createExpressionBuilders(variableVerifier);
 
     protected List<ExpressionBuilder> createExpressionBuilders(VariableVerifier variableVerifier) {
+        SimpleExpressionBuilder simpleExpressionBuilder = new SimpleExpressionBuilder(variableVerifier);
         return DataUtils.unmodifiableList(
                 Arrays.asList(
-                        new SimpleExpressionBuilder(variableVerifier),
-                        new BinaryExpressionBuilder(new SimpleExpressionBuilder(variableVerifier), binaryCalculatorMap)
+                        simpleExpressionBuilder,
+                        new BinaryExpressionBuilder(simpleExpressionBuilder, binaryCalculatorMap),
+                        new BinaryAssignmentExpressionBuilder(simpleExpressionBuilder, binaryAssignmentCalculatorMap),
+                        new UnaryExpressionBuilder(simpleExpressionBuilder, unaryCalculatorMap)
                 )
         );
     }

@@ -16,6 +16,10 @@ public class BinaryExpression implements Expression {
         this.binaryCalculator = binaryCalculator;
     }
 
+    protected Expression getOperand1() {
+        return operand1;
+    }
+
     @Override
     public Object getValue() {
         Object value1 = operand1.getValue();

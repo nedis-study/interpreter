@@ -23,7 +23,7 @@ public class BinaryExpressionBuilder implements ExpressionBuilder {
 
     @Override
     public boolean isSupport(List<String> tokens) {
-        return tokens.size() == 3;
+        return tokens.size() == 3 && binaryCalculatorMap.containsKey(tokens.get(1));
     }
 
     @Override
@@ -32,10 +32,10 @@ public class BinaryExpressionBuilder implements ExpressionBuilder {
         Expression expression1 = simpleExpressionBuilder.build(Collections.singletonList(tokens.get(0)));
         Expression expression2 = simpleExpressionBuilder.build(Collections.singletonList(tokens.get(2)));
         BinaryCalculator binaryCalculator = binaryCalculatorMap.get(operator);
-        if (binaryCalculator != null) {
-            return new BinaryExpression(expression1, expression2, binaryCalculator);
-        } else {
-            throw new SyntaxInterpreterException("Unsupported operator: " + operator);
-        }
+        return createBinaryExpression(expression1, expression2, binaryCalculator);
+    }
+
+    protected BinaryExpression createBinaryExpression(Expression expression1, Expression expression2, BinaryCalculator binaryCalculator) {
+        return new BinaryExpression(expression1, expression2, binaryCalculator);
     }
 }

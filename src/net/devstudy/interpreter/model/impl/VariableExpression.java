@@ -15,8 +15,17 @@ public class VariableExpression implements Expression {
     @Override
     public Object getValue() {
         VariableStorage variableStorage = VariableStorageHelper.getVariableStorage();
-        if(variableStorage.isDefined(variableName)){
+        if (variableStorage.isDefined(variableName)) {
             return variableStorage.getVariable(variableName);
+        } else {
+            throw new RuntimeInterpreterException("Variable '" + variableName + "' not defined");
+        }
+    }
+
+    public void setValue(Object newValue) {
+        VariableStorage variableStorage = VariableStorageHelper.getVariableStorage();
+        if (variableStorage.isDefined(variableName)) {
+            variableStorage.putVariable(variableName, newValue);
         } else {
             throw new RuntimeInterpreterException("Variable '" + variableName + "' not defined");
         }
