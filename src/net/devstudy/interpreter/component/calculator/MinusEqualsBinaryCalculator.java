@@ -18,7 +18,7 @@ public class MinusEqualsBinaryCalculator implements BinaryCalculator {
 		Object result = null;
 		if (variableStorage.isDefined(varName)) {
 			Object varValue = variableStorage.getVariable(varName);
-			if (value2 instanceof Integer) {
+			if (varValue instanceof Integer && value2 instanceof Integer) {
 				result = (Integer) varValue - (Integer) value2;
 				variableStorage.putVariable(varName, (Integer) result);
 			} else if (value2 instanceof Number) {
@@ -26,11 +26,11 @@ public class MinusEqualsBinaryCalculator implements BinaryCalculator {
 				variableStorage.putVariable(varName, (Double) result);
 			} else {
 				throw new SyntaxInterpreterException(
-						"Operator -= not supported for types: " + getType(value1) + " and " + getType(value2));
+						"Operator -= not supported for types: " + getType(varValue) + " and " + getType(value2));
 			}
 			return result;
 		} else {
-			throw new SyntaxInterpreterException("Variable name is not defined");
+			throw new SyntaxInterpreterException("Variable name " + varName + " is not defined");
 		}
 
 	}
