@@ -1,11 +1,24 @@
 package net.devstudy.interpreter.component.calculator.binary.arithmetic;
 
 import net.devstudy.interpreter.component.BinaryCalculator;
+import net.devstudy.interpreter.component.calculator.AbstractCalculator;
 import net.devstudy.interpreter.exception.SyntaxInterpreterException;
 
 import static net.devstudy.interpreter.utils.TypeUtils.getType;
 
-public class PlusBinaryCalculator implements BinaryCalculator {
+public class PlusBinaryCalculator extends AbstractCalculator implements BinaryCalculator {
+	private PlusBinaryCalculator(String operator) {
+        super(operator);
+    }
+
+    public static PlusBinaryCalculator createArithmenticPlusBinaryCalculator(){
+        return new PlusBinaryCalculator("+");
+    }
+
+    public static PlusBinaryCalculator createAssignmentPlusBinaryCalculator(){
+        return new PlusBinaryCalculator("+=");
+    }
+	
     @Override
     public Object calculate(Object value1, Object value2) {
         if (value1 instanceof Integer && value2 instanceof Integer) {

@@ -1,16 +1,46 @@
 package net.devstudy.interpreter.component.impl;
 
-import net.devstudy.interpreter.component.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.devstudy.interpreter.component.BinaryCalculator;
+import net.devstudy.interpreter.component.Config;
+import net.devstudy.interpreter.component.ContextInterpeter;
+import net.devstudy.interpreter.component.ExpressionBuilder;
+import net.devstudy.interpreter.component.ExpressionResolver;
+import net.devstudy.interpreter.component.Interpreter;
+import net.devstudy.interpreter.component.OperationInterpeter;
+import net.devstudy.interpreter.component.OperationTreeBuilder;
+import net.devstudy.interpreter.component.SignificantLineVerifier;
+import net.devstudy.interpreter.component.SourceLineReader;
+import net.devstudy.interpreter.component.TokenParser;
+import net.devstudy.interpreter.component.UnaryCalculator;
+import net.devstudy.interpreter.component.VariableVerifier;
+import net.devstudy.interpreter.component.calculator.binary.arithmetic.DivideBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.arithmetic.MinusBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.arithmetic.MultiplicationBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.arithmetic.PlusBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.arithmetic.RemainderBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.bit.BitAndBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.bit.BitLeftShiftBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.bit.BitNoSignRightShiftBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.bit.BitOrBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.bit.BitRightShiftBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.bit.BitXorBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.logic.AndBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.logic.OrBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.predicate.EqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.predicate.LessBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.predicate.LessOrEqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.predicate.MoreBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.predicate.MoreOrEqualsBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.predicate.NotEqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.unary.BitwiseComplementUnaryCalculator;
+import net.devstudy.interpreter.component.calculator.unary.MinusUnaryCalculator;
+import net.devstudy.interpreter.component.calculator.unary.NotUnaryCalculator;
 import net.devstudy.interpreter.component.calculator.unary.PlusUnaryCalculator;
 import net.devstudy.interpreter.component.expressionbuilder.BinaryAssignmentExpressionBuilder;
 import net.devstudy.interpreter.component.expressionbuilder.BinaryExpressionBuilder;
@@ -20,8 +50,6 @@ import net.devstudy.interpreter.component.operationinterpreter.InputOperationInt
 import net.devstudy.interpreter.component.operationinterpreter.OutOperationInterpeter;
 import net.devstudy.interpreter.component.operationinterpreter.VarDeclarationOperationInterpeter;
 import net.devstudy.interpreter.utils.DataUtils;
-
-import java.util.*;
 
 public class ConfigImpl implements Config {
     private final VariableVerifier variableVerifier = createVariableVerifier();
@@ -36,16 +64,24 @@ public class ConfigImpl implements Config {
         return Collections.unmodifiableMap(new HashMap<String, BinaryCalculator>() {
             {
                 put("-", MinusBinaryCalculator.createArithmenticMinusBinaryCalculator());
-                put("+", new PlusBinaryCalculator());
-                put("*", new MultiplicationBinaryCalculator());
+                put("+", PlusBinaryCalculator.createArithmenticPlusBinaryCalculator());
+                put("*", MultiplicationBinaryCalculator.createArithmenticMultiplicationBinaryCalculator());
+                put("/", DivideBinaryCalculator.createArithmenticDivideBinaryCalculator());
+                put("%", RemainderBinaryCalculator.createArithmenticRemainderBinaryCalculator());
+                put("&", BitAndBinaryCalculator.createArithmenticBitAndBinaryCalculator());
+                put("|", BitOrBinaryCalculator.createArithmenticBitOrBinaryCalculator());
+                put("^", BitXorBinaryCalculator.createArithmenticBitXorBinaryCalculator());
                 put("||", new OrBinaryCalculator());
                 put("&&", new AndBinaryCalculator());
-                put("<<", new BitLeftShiftBinaryCalculator());
-                put(">>", new BitRightShiftBinaryCalculator());
-                put(">>>", new BitNoSignRightShiftBinaryCalculator());
-
+                put("<<", BitLeftShiftBinaryCalculator.createArithmenticBitLeftShiftBinaryCalculator());
+                put(">>", BitRightShiftBinaryCalculator.createArithmenticBitRightShiftBinaryCalculator());
+                put(">>>", BitNoSignRightShiftBinaryCalculator.createArithmenticBitNoSignRightShiftBinaryCalculator());
                 put("==", new EqualsBinaryCalculator());
                 put("!=", new NotEqualsBinaryCalculator());
+                put("<", new LessBinaryCalculator());
+                put(">", new MoreBinaryCalculator());
+                put("<=", new LessOrEqualsBinaryCalculator());
+                put(">=", new MoreOrEqualsBinaryCalculator());
             }
         });
     }
@@ -56,11 +92,16 @@ public class ConfigImpl implements Config {
         return Collections.unmodifiableMap(new HashMap<String, BinaryCalculator>() {
             {
                 put("-=", MinusBinaryCalculator.createAssignmentMinusBinaryCalculator());
-                put("+=", new PlusBinaryCalculator());
-                put("*=", new MultiplicationBinaryCalculator());
-                put("<<=", new BitLeftShiftBinaryCalculator());
-                put(">>=", new BitRightShiftBinaryCalculator());
-                put(">>>=", new BitNoSignRightShiftBinaryCalculator());
+                put("+=", PlusBinaryCalculator.createAssignmentPlusBinaryCalculator());
+                put("*=", MultiplicationBinaryCalculator.createAssignmentMultiplicationBinaryCalculator());
+                put("/=", DivideBinaryCalculator.createAssignmentDivideBinaryCalculator());
+                put("%=", RemainderBinaryCalculator.createAssignmentRemainderBinaryCalculator());
+                put("&=", BitAndBinaryCalculator.createAssignmentBitAndBinaryCalculator());
+                put("|=", BitOrBinaryCalculator.createAssignmentBitOrBinaryCalculator());
+                put("^=", BitXorBinaryCalculator.createAssignmentBitXorBinaryCalculator());
+                put("<<=", BitLeftShiftBinaryCalculator.createAssignmentBitLeftShiftBinaryCalculator());
+                put(">>=", BitRightShiftBinaryCalculator.createAssignmentBitRightShiftBinaryCalculator());
+                put(">>>=", BitNoSignRightShiftBinaryCalculator.createAssignmentBitNoSignRightShiftBinaryCalculator());
             }
         });
     }
@@ -71,6 +112,9 @@ public class ConfigImpl implements Config {
         return Collections.unmodifiableMap(new HashMap<String, UnaryCalculator>() {
             {
                 put("+", new PlusUnaryCalculator());
+                put("-", new MinusUnaryCalculator());
+                put("!", new NotUnaryCalculator());
+                put("~", new BitwiseComplementUnaryCalculator());
             }
         });
     }
