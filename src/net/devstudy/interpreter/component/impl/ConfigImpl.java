@@ -38,6 +38,9 @@ import net.devstudy.interpreter.component.calculator.binary.predicate.LessOrEqua
 import net.devstudy.interpreter.component.calculator.binary.predicate.MoreBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.predicate.MoreOrEqualsBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.predicate.NotEqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.unary.BitwiseComplementUnaryCalculator;
+import net.devstudy.interpreter.component.calculator.unary.MinusUnaryCalculator;
+import net.devstudy.interpreter.component.calculator.unary.NotUnaryCalculator;
 import net.devstudy.interpreter.component.calculator.unary.PlusUnaryCalculator;
 import net.devstudy.interpreter.component.expressionbuilder.BinaryAssignmentExpressionBuilder;
 import net.devstudy.interpreter.component.expressionbuilder.BinaryExpressionBuilder;
@@ -109,6 +112,9 @@ public class ConfigImpl implements Config {
         return Collections.unmodifiableMap(new HashMap<String, UnaryCalculator>() {
             {
                 put("+", new PlusUnaryCalculator());
+                put("-", new MinusUnaryCalculator());
+                put("!", new NotUnaryCalculator());
+                put("~", new BitwiseComplementUnaryCalculator());
             }
         });
     }
