@@ -1,10 +1,11 @@
-var a = true
-//var b = +a
-out a&false
-
+var a = 8
 
 out a
-out b
+out a == 3
+out a
+
+
+//var b = +a
 
 // "+", "-", "*", "/", "%",
 // "==", "!=", ">", "<", ">=", "<=",

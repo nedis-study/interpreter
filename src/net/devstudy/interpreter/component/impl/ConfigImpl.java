@@ -33,6 +33,10 @@ import net.devstudy.interpreter.component.calculator.binary.bit.BitXorBinaryCalc
 import net.devstudy.interpreter.component.calculator.binary.logic.AndBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.logic.OrBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.predicate.EqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.predicate.LessBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.predicate.LessOrEqualsBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.predicate.MoreBinaryCalculator;
+import net.devstudy.interpreter.component.calculator.binary.predicate.MoreOrEqualsBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.binary.predicate.NotEqualsBinaryCalculator;
 import net.devstudy.interpreter.component.calculator.unary.PlusUnaryCalculator;
 import net.devstudy.interpreter.component.expressionbuilder.BinaryAssignmentExpressionBuilder;
@@ -71,6 +75,10 @@ public class ConfigImpl implements Config {
                 put(">>>", BitNoSignRightShiftBinaryCalculator.createArithmenticBitNoSignRightShiftBinaryCalculator());
                 put("==", new EqualsBinaryCalculator());
                 put("!=", new NotEqualsBinaryCalculator());
+                put("<", new LessBinaryCalculator());
+                put(">", new MoreBinaryCalculator());
+                put("<=", new LessOrEqualsBinaryCalculator());
+                put(">=", new MoreOrEqualsBinaryCalculator());
             }
         });
     }
